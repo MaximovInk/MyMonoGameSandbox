@@ -9,7 +9,7 @@ namespace MySandbox.Core
     public class Texture2DSheet
     {
         [JsonIgnore]
-        public Texture2D sheet;
+        public Texture2D texture;
 
         public Rectangle[] elements = new Rectangle[] { };
 
@@ -20,14 +20,27 @@ namespace MySandbox.Core
         {
 
         }
-
+        /// <summary>
+        /// Load texture from path
+        /// </summary>
+        /// <param name="path">path</param>
+        /// <param name="elements">default elements</param>
         public Texture2DSheet(string path  , Rectangle[] elements = null)
         {
             TexturePath = path;
-            sheet = Core.content.Load<Texture2D>(TexturePath);
-            Init( elements);
+            texture = Core.content.Load<Texture2D>(TexturePath);
+            this.elements = elements;
         }
-
+        /// <summary>
+        /// Generate elements by cell
+        /// </summary>
+        /// <param name="el_width">Element width</param>
+        /// <param name="el_height">Element height</param>
+        /// <param name="total_x">Elements x</param>
+        /// <param name="total_y">Elements y</param>
+        /// <param name="spacing">Spacing behind elements</param>
+        /// <param name="left_padding">Left padding</param>
+        /// <param name="top_padding">Top padding</param>
         public void GenerateElements( int el_width, int el_height, int total_x, int total_y, int spacing = 1, int left_padding = 0, int top_padding = 0)
         {
             elements = new Rectangle[total_x * total_y];
@@ -45,13 +58,6 @@ namespace MySandbox.Core
                 }
                 total+= total_x;
             }
-            Init( elements);
-        }
-
-        private void Init( Rectangle[] elements)
-        {
-            
-            this.elements = elements;
         }
     }
 }

@@ -33,19 +33,19 @@ namespace MySandbox.Core.Components
         {
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (Core.Input.IsKey(Up))
+            if (Core.Input.GetKey(Up))
             {
                 direction.Y-= 1* elapsed * Speed;
             }
-            if (Core.Input.IsKey(Down))
+            if (Core.Input.GetKey(Down))
             {
                 direction.Y+= 1 * elapsed * Speed;
             }
-            if (Core.Input.IsKey(Left))
+            if (Core.Input.GetKey(Left))
             {
                 direction.X-= 1 * elapsed * Speed;
             }
-            if (Core.Input.IsKey(Right))
+            if (Core.Input.GetKey(Right))
             {
                 direction.X+= 1* elapsed * Speed;
             }

@@ -37,19 +37,26 @@ namespace MySandbox.Core.Tilemaps
         {
             Start(true);
         }
-
+        /// <summary>
+        /// Start animation
+        /// </summary>
+        /// <param name="loop">Is loop</param>
         public void Start(bool loop)
         {
             Loop = loop;
             IsPlay = true;
         }
-
+        /// <summary>
+        /// Stop animation
+        /// </summary>
         public void Stop()
         {
             IsPlay = false;
             frame = Wait + 1;
         }
-
+        /// <summary>
+        /// On update
+        /// </summary>
         protected override void OnUpdate()
         {
             if (!IsPlay)

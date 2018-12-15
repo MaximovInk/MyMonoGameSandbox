@@ -2,6 +2,7 @@
 {
     class Math
     {
+        #region  Clamp
         public static byte Clamp(byte value, byte min, byte max)
         {
             return value > max ? max : value < min ? min : value;
@@ -21,7 +22,6 @@
         {
             return value > max ? max : value < min ? min : value;
         }
-
-        
+        #endregion
     }
 }

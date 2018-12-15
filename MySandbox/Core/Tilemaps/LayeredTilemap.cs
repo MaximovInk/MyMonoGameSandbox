@@ -43,6 +43,9 @@ namespace MySandbox.Core.Tilemaps
         [JsonIgnore]
         public override List<GameObject> Childrens { get => base.Childrens; protected set => base.Childrens = value; }
 
+        /// <summary>
+        /// Layers for collision detection
+        /// </summary>
         public int[] physics_layers = new int[] { 1 };
 
         [JsonConstructor]
@@ -55,29 +58,42 @@ namespace MySandbox.Core.Tilemaps
                 AddLayer(layers[i]);
             }
         }
-
+        /// <summary>
+        /// Construct layered tilemap
+        /// </summary>
+        /// <param name="layers">List of layers</param>
+        /// <param name="update">Update</param>
         public LayeredTilemap(List<Tilemap> layers, bool update = true)
         {
-            this.update = update;
+            this.UpdateThis = update;
 
             for (int i = 0; i < layers.Count; i++)
             {
                 AddLayer(layers[i]);
             }
         }
-
+        /// <summary>
+        /// Add layer
+        /// </summary>
+        /// <param name="layer">Layer</param>
         public void AddLayer(Tilemap layer)
         {
             layers.Add(layer);
             Childrens.Add(layer);
         }
-
+        /// <summary>
+        /// Remove layer
+        /// </summary>
+        /// <param name="layer">Layer</param>
         public void RemoveLayer(Tilemap layer)
         {
             layers.Remove(layer);
             Childrens.Remove(layer);
         }
-
+        /// <summary>
+        /// Update current chunk
+        /// </summary>
+        /// <param name="pos">Player position</param>
         public void UpdateCurrChunk(Vector2 pos)
         {
             for (int i = 0; i < layers.Count; i++)
@@ -85,7 +101,9 @@ namespace MySandbox.Core.Tilemaps
                 layers[i].UpdateCurrChunk(pos);
             }
         }
-
+        /// <summary>
+        /// Draw
+        /// </summary>
         public override void Draw()
         {
             if (drawType == TilemapDrawType.BackToFront)
@@ -103,15 +121,20 @@ namespace MySandbox.Core.Tilemaps
                 }
             }
         }
-
-        public bool BodyColliding(Vector2 pos, Vector2 half_szie)
+        /// <summary>
+        /// Check collision
+        /// </summary>
+        /// <param name="pos">Body position</param>
+        /// <param name="size">Body size</param>
+        /// <returns></returns>
+        public bool BodyColliding(Vector2 pos, Vector2 size)
         {
             for (int i = 0; i < physics_layers.Length; i++)
             {
                 if (layers.Count > physics_layers[i])
                 {
                     
-                    return layers[physics_layers[i]].CheckCollision(pos, half_szie);
+                    return layers[physics_layers[i]].CheckCollision(pos, size);
                 }
             }
             return false;

@@ -14,24 +14,35 @@ namespace MySandbox.Core
         public string path = "Content/Maps/";
         public string file_name = "Scene.json";
 
+        /// <summary>
+        /// Combine path with file name
+        /// </summary>
         public string GetFullPath()
         {
             return Path.Combine(path, file_name);
         }
 
         public int Width, Height;
-
-        public Scene(string path)
+        /// <summary>
+        /// Load scene from path
+        /// </summary>
+        /// <param name="path">path</param>
+        public Scene(string path , string file_name)
         {
             this.path = path;
+            this.file_name = file_name;
             Load();
         }
-
+        /// <summary>
+        /// Create empty scene
+        /// </summary>
         public Scene()
         {
 
         }
-
+        /// <summary>
+        /// Draw gameobjects
+        /// </summary>
         public void Draw()
         {
             for (int i = 0; i < gameObjects.Count; i++)
@@ -39,7 +50,9 @@ namespace MySandbox.Core
                 gameObjects[i].Draw();
             }
         }
-
+        /// <summary>
+        /// Load scene
+        /// </summary>
         public void Load()
         {
             if (!File.Exists(GetFullPath()))
@@ -59,7 +72,9 @@ namespace MySandbox.Core
                 gameObjects[i].UpdateTexture();
             }
         }
-
+        /// <summary>
+        /// Save scene
+        /// </summary>
         public void Save()
         {
             if (gameObjects == null)
@@ -76,7 +91,10 @@ namespace MySandbox.Core
                 serializer.Serialize(file, gameObjects);
             }
         }
-
+        /// <summary>
+        /// Update objects
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
         public void Update(GameTime gameTime)
         {
             for (int i = 0; i < gameObjects.Count; i++)

@@ -22,6 +22,10 @@ namespace MySandbox.Core
         public event OnMoved onMove;
         public event OnZoomed onZoom;
 
+        /// <summary>
+        /// Construct camera
+        /// </summary>
+        /// <param name="viewport">Game viewport</param>
         public Camera(Viewport viewport)
         {
             Bounds = viewport.Bounds;
@@ -29,18 +33,23 @@ namespace MySandbox.Core
             Position = Vector2.Zero;
             main = this;
         }
-
+        /// <summary>
+        /// ! NOT VERIFIED ! Covert world position to screen
+        /// </summary>
         public Vector2 GetScreenPosition(Vector2 worldPosition)
         {
-            return worldPosition - Position;
+            return worldPosition - (worldPosition + new Vector2(Bounds.Width / 2, Bounds.Height / 2)) * Zoom;
         }
-
+        /// <summary>
+        /// Convert screen to world position
+        /// </summary>
         public Vector2 GetWorldPosition(Vector2 screenPosition)
         {
             return Position + (screenPosition - new Vector2(Bounds.Width/2, Bounds.Height/2))/Zoom;
-            
         }
-
+        /// <summary>
+        /// Update screen area
+        /// </summary>
         private void UpdateVisibleArea()
         {
             var inverseViewMatrix = Matrix.Invert(Transform);
@@ -58,7 +67,9 @@ namespace MySandbox.Core
                 MathHelper.Max(tl.Y, MathHelper.Max(tr.Y, MathHelper.Max(bl.Y, br.Y))));
             VisibleArea = new Rectangle((int)min.X, (int)min.Y, (int)(max.X - min.X), (int)(max.Y - min.Y));
         }
-
+        /// <summary>
+        /// Update matrix
+        /// </summary>
         private void UpdateMatrix()
         {
             Transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y , 0)) *
@@ -66,7 +77,9 @@ namespace MySandbox.Core
                     Matrix.CreateTranslation(new Vector3(Bounds.Width * 0.5f, Bounds.Height * 0.5f, 0));
             UpdateVisibleArea();
         }
-
+        /// <summary>
+        /// Zoom camera
+        /// </summary>
         public void AdjustZoom(float zoomAmount)
         {
             Zoom += zoomAmount;
@@ -81,14 +94,19 @@ namespace MySandbox.Core
             if (onZoom != null)
                 onZoom();
         }
-
+        /// <summary>
+        /// Set position
+        /// </summary>
+        /// <param name="pos"></param>
         public void SetPosition(Vector2 pos)
         {
             Position = new Vector2( pos.X, pos.Y);
             if(onMove != null)
                 onMove(pos);
         }
-
+        /// <summary>
+        /// Update camera
+        /// </summary>
         public void UpdateCamera(Viewport bounds)
         {
             Bounds = bounds.Bounds;

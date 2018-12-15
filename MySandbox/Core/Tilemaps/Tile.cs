@@ -11,10 +11,19 @@ namespace MySandbox.Core.Tilemaps
         [JsonIgnore]
         public Rectangle CurrentElement { get; protected set; }
         [JsonIgnore]
-        public Tilemap Tilemap { get { return _tilemap; } set { _tilemap = value;
-                if(Core.currentScene != null)
-                tilemap_index = Core.currentScene.gameObjects.IndexOf(value);
-            } }
+        public Tilemap Tilemap
+        {
+            get
+            {
+                return _tilemap;
+            }
+            set
+            {
+                _tilemap = value;
+                if(Core.CurrentScene != null)
+                tilemap_index = Core.CurrentScene.gameObjects.IndexOf(value);
+            }
+        }
         [JsonIgnore]
         private Tilemap _tilemap;
         [JsonProperty]
@@ -28,6 +37,7 @@ namespace MySandbox.Core.Tilemaps
         public int y;
         public Color Color = Color.White;
         public float Scale = 1;
+
         public Vector2 Position
         {
             get
@@ -45,7 +55,7 @@ namespace MySandbox.Core.Tilemaps
 
             try
             {
-                Tilemap = Core.currentScene.gameObjects[tilemap_index] as Tilemap;
+                Tilemap = Core.CurrentScene.gameObjects[tilemap_index] as Tilemap;
             }
             catch (Exception ex)
             {
@@ -62,7 +72,11 @@ namespace MySandbox.Core.Tilemaps
             }
             SetElement(element_index);
         }
-
+        /// <summary>
+        /// Construct tile
+        /// </summary>
+        /// <param name="ContentDefualtIndex">Tileset index in ContentDefault</param>
+        /// <param name="index">Index in tileset array</param>
         public Tile(int ContentDefualtIndex = 0 , int index = 0)
         {
             tileset_index = ContentDefualtIndex;
@@ -71,17 +85,24 @@ namespace MySandbox.Core.Tilemaps
             SetElement(element_index);
             
         }
-
+        /// <summary>
+        /// Set element
+        /// </summary>
+        /// <param name="index">Index</param>
         public void SetElement(int index)
         {
             CurrentElement = Sprite.elements[index];
         }
-
+        /// <summary>
+        /// Update tile
+        /// </summary>
         public void Update()
         {
             OnUpdate();
         }
-
+        /// <summary>
+        /// On update
+        /// </summary>
         protected virtual void OnUpdate()
         {
 

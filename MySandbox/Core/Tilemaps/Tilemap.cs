@@ -27,8 +27,15 @@ namespace MySandbox.Core.Tilemaps
         public byte smooth = 20;
         [JsonIgnore]
         protected Vector2 one_chunk_size => new Vector2(max_chunk_size, max_chunk_size);
-
-        public Tilemap(short width, short height, Vector2 position, float rotation = 0, bool update = false) : base(ContentDefault.empty, position, rotation, update)
+        /// <summary>
+        /// Construct tilemap 
+        /// </summary>
+        /// <param name="width">The number of tiles along the x axis</param>
+        /// <param name="height">The number of tiles along the y axis</param>
+        /// <param name="position">Start position</param>
+        /// <param name="rotation">Rotation</param>
+        /// <param name="update">Update</param>
+        public Tilemap(short width, short height, Vector2 position, float rotation = 0, bool update = true) : base(ContentDefault.empty, position, rotation, update)
         {
             structure = new short[width, height];
             Clear();
@@ -42,13 +49,18 @@ namespace MySandbox.Core.Tilemaps
             Init();
             UpdateCurrChunk(Core.Player.Position);
         }
-
+        /// <summary>
+        /// Update current chunk position
+        /// </summary>
+        /// <param name="pos">Player position</param>
         public void UpdateCurrChunk(Vector2 pos)
         {
             CurrentX_chunk = (byte)(pos.X / max_chunk_size / TileX);
             CurrentY_chunk = (byte)(pos.Y / max_chunk_size / TileY);
         }
-
+        /// <summary>
+        /// Json init
+        /// </summary>
         private void Init()
         {
             for (int x = 0; x < structure.GetUpperBound(0); x++)
@@ -60,7 +72,9 @@ namespace MySandbox.Core.Tilemaps
                 }
             }
         }
-
+        /// <summary>
+        /// Remove all tiles
+        /// </summary>
         public void Clear()
         {
             for (int x = 0; x < structure.GetUpperBound(0); x++)
@@ -70,8 +84,11 @@ namespace MySandbox.Core.Tilemaps
                     structure[x, y] = -1;
                 }
             }
+            tiles = new List<Tile>();
         }
-
+        /// <summary>
+        /// Set tile
+        /// </summary>
         public void SetTile(Tile tile, int x ,int y)
         {
             if (tile == null)
@@ -108,7 +125,9 @@ namespace MySandbox.Core.Tilemaps
             }
 
         }
-
+        /// <summary>
+        /// Update tilemap
+        /// </summary>
         protected override void OnUpdate()
         {
             for (int i = 0; i < tiles.Count; i++)
@@ -116,7 +135,9 @@ namespace MySandbox.Core.Tilemaps
                 tiles[i].Update();
             }
         }
-
+        /// <summary>
+        /// Draw tilemap
+        /// </summary>
         public override void Draw()
         {
             int min_x = CurrentX_chunk * (int)one_chunk_size.X ;
@@ -134,13 +155,18 @@ namespace MySandbox.Core.Tilemaps
                         Texture2DSheet sheet = tiles[structure[x, y]].Sprite;
                         Rectangle element = tiles[structure[x, y]].CurrentElement;
 
-                        Core.spriteBatch.Draw(sheet.sheet, new Vector2(x * TileX, y * TileY),element, Color.White, 0 , Vector2.Zero, 1, SpriteEffects.None, 0);
+                        Core.spriteBatch.Draw(sheet.texture, new Vector2(x * TileX, y * TileY),element, Color.White, 0 , Vector2.Zero, 1, SpriteEffects.None, 0);
 
                     }
                 }
             }
         }
-
+        /// <summary>
+        /// Check colliding body with this tilemap
+        /// </summary>
+        /// <param name="pos">Body position</param>
+        /// <param name="size">Body size</param>
+        /// <returns></returns>
         public bool CheckCollision(Vector2 pos , Vector2 size)
         {
             bool colliding = false;

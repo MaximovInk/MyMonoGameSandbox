@@ -18,10 +18,16 @@ namespace MySandbox.Core.UI
         public List<UIElement> childrens;
 
         public bool MouseOver => hover;
+        protected bool hover;
 
         public int ScaleX = 1;
         public int ScaleY = 1;
-
+        /// <summary>
+        /// Construct UIElement
+        /// </summary>
+        /// <param name="position">Start position</param>
+        /// <param name="scaleX">Scale x</param>
+        /// <param name="scaleY">Scale y</param>
         public UIElement(Vector2 position, int scaleX = 1, int scaleY = 1)
         { 
             this.position = position;
@@ -30,13 +36,18 @@ namespace MySandbox.Core.UI
             childrens = new List<UIElement>();
         }
 
-        protected bool hover;
-
+        /// <summary>
+        /// Update UIElement
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
         public virtual void Update(GameTime gameTime)
         {
             
         }
-
+        /// <summary>
+        /// Draw UIElement
+        /// </summary>
+        /// <param name="pos">Parent position</param>
         public virtual void Draw(Vector2 pos)
         {
             if (IsActive)

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MySandbox.Core.Tilemaps;
-using System;
 
 namespace MySandbox.Core
 {
@@ -12,9 +11,11 @@ namespace MySandbox.Core
         public static SpriteFont font;
         public static Texture2DSheet player_texture;
         public static Texture2DSheet empty;
-
         public static Texture2DSheet[] tilesets;
 
+        /// <summary>
+        /// Load defualt content for game
+        /// </summary>
         public static void LoadContent()
         {
             player_texture = new Texture2DSheet("Player");

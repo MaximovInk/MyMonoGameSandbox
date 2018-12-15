@@ -35,11 +35,21 @@ namespace MySandbox.Core.UI
 
         private bool is_hover = false;
         private bool is_press = false;
-
+        /// <summary>
+        /// Construct UIButton
+        /// </summary>
+        /// <param name="sheet">Texture atlas</param>
+        /// <param name="position">Start position</param>
+        /// <param name="element">Atlas element</param>
+        /// <param name="scaleX">Scale x</param>
+        /// <param name="scaleY">Scale y</param>
         public UIButton(Texture2DSheet sheet, Vector2 position, int element = 0, int scaleX = 1, int scaleY = 1) : base(sheet, position, element, scaleX , scaleY)
         {
         }
-
+        /// <summary>
+        /// Update UIButton
+        /// </summary>
+        /// <param name="gameTime">Game time</param>
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -50,7 +60,11 @@ namespace MySandbox.Core.UI
             bool pressed = hover && Core.Input.GetMouseButton(0);
             HaP(hover, pressed);
         }
-
+        /// <summary>
+        /// Check hover and press mouse for this button
+        /// </summary>
+        /// <param name="hover"></param>
+        /// <param name="press"></param>
         private void HaP(bool hover, bool press)
         {
             if (Selectable && press && onSelect != null)
@@ -98,7 +112,9 @@ namespace MySandbox.Core.UI
             }
 
         }
-
+        /// <summary>
+        /// On select
+        /// </summary>
         public void Select()
         {
             if (Selectable)
@@ -107,7 +123,9 @@ namespace MySandbox.Core.UI
                 Color = OnPressColor;
             }
         }
-
+        /// <summary>
+        /// On deselect
+        /// </summary>
         public void Deselect()
         {
             if(Selectable)

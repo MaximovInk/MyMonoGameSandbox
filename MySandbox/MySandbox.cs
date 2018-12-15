@@ -10,12 +10,15 @@ using System;
 
 namespace MySandbox
 {
+    /// <summary>
+    /// Main game class
+    /// </summary>
     class MySandbox : Core.Core
     {
-        public int current_tool { get; set; }
-        private int current_tile;
-        private Tile tile;
-        private UIButton change_tile_button;
+        public int current_tool { get; set; }  
+        private int current_tile;               
+        private Tile tile;                      
+        private UIButton change_tile_button;    
         public static GameTime time;
 
         public static LayeredTilemap current_tilemap;
@@ -31,22 +34,27 @@ namespace MySandbox
             Camera.main = new Camera(GraphicsDevice.Viewport);
 
             Player = new Player(ContentDefault.player_texture, Vector2.Zero);
-            Player.update = true;
+            Player.UpdateThis = true;
             control = new PhysicsMovementComponent();
 
             Player.animation = Player.AddComponent(new AnimationComponent()) as AnimationComponent;
-            Player.movement = Player.AddComponent(control) as MovementComponent;
+            Player.AddComponent(control);
 
-            UIManager.elements.Add(new FpsCounter(ContentDefault.font, new Vector2(0, 1)));
+            UIManager.elements.Add(new FpsCounterText(ContentDefault.font, new Vector2(0, 1)));
+
             var pickaxe_button = new UIButton(ContentDefault.ui_sheet, new Vector2(0, 10 * 3), 0, 3, 3);
             pickaxe_button.onMouseRelease += () => { current_tool = 0; };
+
             var building_button = new UIButton(ContentDefault.ui_sheet, new Vector2(0, 26 * 3), 1, 3, 3);
             building_button.onMouseRelease += () => { current_tool = 1; };
+
             change_tile_button = new UIButton(ContentDefault.tilesets[0], new Vector2(0, 42 * 3), 2, 3, 3);
             change_tile_button.onMouseRelease += () => { current_tile++; TileChanged(); };
+
             UIManager.elements.Add(pickaxe_button);
             UIManager.elements.Add(building_button);
             UIManager.elements.Add(change_tile_button);
+
             UIManager.OnMove(Vector2.Zero);
 
             building_button.Selectable = true;
@@ -64,8 +72,8 @@ namespace MySandbox
             Camera.main.onZoom += () => { UIManager.OnMove(Camera.main.Position); };
 
             TileChanged();
-            currentScene = new Scene();
-            currentScene.gameObjects.Add(current_tilemap);
+            CurrentScene = new Scene();
+            CurrentScene.gameObjects.Add(current_tilemap);
             UpdateTilemapEvents();
         }
 
@@ -111,28 +119,23 @@ namespace MySandbox
             Camera.main.UpdateCamera(GraphicsDevice.Viewport);
             float elapsed = gameTime.ElapsedGameTime.Milliseconds / 16;
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Input.IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Input.GetKeyDown(Keys.Escape))
                 Exit();
 
-            if (Input.IsKeyDown(Keys.F12))
+            if (Input.GetKeyDown(Keys.F12))
             {
                 graphics.ToggleFullScreen();
             }
 
-            if (Input.IsKeyDown(Keys.F1))
+            if (Input.GetKeyDown(Keys.F1))
             {
                 speed_hack = !speed_hack;
             }
 
-            if (Input.IsKeyDown(Keys.C))
-                currentScene.Save();
-            if (Input.IsKeyDown(Keys.R))
-                currentScene.Load();
-
-            if (Input.IsKeyDown(Keys.OemPlus) && current_tilemap != null)
-                current_tilemap.CurrentY_chunk++;
-            if (Input.IsKeyDown(Keys.OemMinus) && current_tilemap != null)
-                current_tilemap.CurrentY_chunk--;
+            if (Input.GetKeyDown(Keys.C))
+                CurrentScene.Save();
+            if (Input.GetKeyDown(Keys.R))
+                CurrentScene.Load();
 
 
             if (Input.GetMouseButton(0) && current_tilemap != null && !UIManager.IsOverUI())

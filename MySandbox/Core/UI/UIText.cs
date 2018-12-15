@@ -8,12 +8,21 @@ namespace MySandbox.Core.UI
         public string Text = string.Empty;
         public SpriteFont font;
         public float size = 1;
-
-        public UIText(SpriteFont font, Vector2 position, int element = 0, int scaleX = 1, int scaleY = 1) : base( position, scaleX, scaleY)
+        /// <summary>
+        /// Construct UIext
+        /// </summary>
+        /// <param name="font">Font</param>
+        /// <param name="position">Start position</param>
+        /// <param name="scaleX">Scale x</param>
+        /// <param name="scaleY">Scale y</param>
+        public UIText(SpriteFont font, Vector2 position, int scaleX = 1, int scaleY = 1) : base( position, scaleX, scaleY)
         {
             this.font = font;
         }
-
+        /// <summary>
+        /// Draw text
+        /// </summary>
+        /// <param name="pos">Parent position</param>
         public override void Draw(Vector2 pos)
         {
             Core.spriteBatch.DrawString(font, Text, position+pos, Color.Black, 0, Vector2.Zero, 1 / Camera.main.Zoom * size, SpriteEffects.None, 0);

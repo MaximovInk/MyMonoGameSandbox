@@ -46,22 +46,22 @@ namespace MySandbox.Core.Components
                 direction.Y -= 1 * elapsed * speed;
             }
 
-            if (Core.Input.IsKey(Up))
+            if (Core.Input.GetKey(Up))
             {
                 if (!MySandbox.current_tilemap.BodyColliding(new Vector2(@object.Position.X, @object.Position.Y - 1 * elapsed * Speed),size))
                         direction.Y -= 1 * elapsed * Speed;
             }
-            if (Core.Input.IsKey(Down))
+            if (Core.Input.GetKey(Down))
             {
                 if (!MySandbox.current_tilemap.BodyColliding(new Vector2(@object.Position.X, @object.Position.Y + 1 * elapsed * Speed),size))
                     direction.Y += 1 * elapsed * Speed;
             }
-            if (Core.Input.IsKey(Left))
+            if (Core.Input.GetKey(Left))
             {
                 if (!MySandbox.current_tilemap.BodyColliding(new Vector2(@object.Position.X - 1 * elapsed * Speed , @object.Position.Y),size))
                     direction.X -= 1 * elapsed * Speed;
             }
-            if (Core.Input.IsKey(Right))
+            if (Core.Input.GetKey(Right))
             {
                 if (!MySandbox.current_tilemap.BodyColliding(new Vector2(@object.Position.X + 1 * elapsed * Speed , @object.Position.Y),size))
                     direction.X += 1 * elapsed * Speed;
