@@ -1,6 +1,13 @@
 # MySandbox
 Based on xna/monogame
 
+Controls:
+- F1 - speedhack
+- F12 - fullscreen
+- R - load scene
+- C - save scene
+- LeftMouseButton - place/remove tile
+
 Have:
 - ECS
 - - [x] gameobjects draw/update
