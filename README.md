@@ -1,4 +1,4 @@
-# MySandbox
+# MyMonoGameSandbox
 Based on xna/monogame
 
 Controls:
